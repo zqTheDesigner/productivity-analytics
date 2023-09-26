@@ -2,12 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def visualize_monthly_avg_sleep(sleep):
+def visualize_monthly_avg_sleep(sleep: pd.Series):
     sleep = sleep.replace(0, sleep.mean())
     sleep = sleep.resample('M').mean()
 
     sleep.index = [sleep.index.strftime('%m-%d'), sleep.index.year]
-    sleep = sleep.unstack()['total_sleep_hours']
+    sleep = sleep.unstack()['night_sleep_hours']
 
     sleep.index = pd.to_datetime(sleep.index, format='%m-%d').month_name()
 
@@ -22,7 +22,7 @@ def visualize_monthly_avg_sleep(sleep):
     mean = sleep.mean()
 
     ax.set_ylim([min * 0.9, max*1.1])
-    ax.set_title('Monthly Average Sleeping Time')
+    ax.set_title('Monthly Average Night Sleeping Time')
 
     min_index = sleep[sleep == min].dropna(
         axis=1, how='all').dropna(axis=0).index
@@ -51,7 +51,7 @@ def visualize_monthly_avg_sleep(sleep):
     plt.show()
 
 
-def visualize_weekly_avg_sleep(sleep):
+def visualize_weekly_avg_sleep(sleep: pd.Series):
     sleep = sleep.replace(0, sleep.mean())
     sleep = sleep.resample('W').mean()
 
@@ -71,7 +71,7 @@ def visualize_weekly_avg_sleep(sleep):
 
     ax.set_ylim([min, max])
 
-    ax.set_title('Weekly Average Sleeping Time')
+    ax.set_title('Weekly Average Night Sleeping Time')
 
     fig.tight_layout()
     plt.show()
